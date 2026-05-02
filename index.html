@@ -2107,19 +2107,21 @@ async function loadProducts() {
     const data = await res.json();
     if (data.ok && data.products && data.products.length) {
       PRODUCTS = data.products.map(p => ({
-        id:    p.id,
-        name:  p.name,
-        stor:  p.stor,
-        ars:   p.ars   ?? null,
-        usd:   p.usd   ?? null,
-        badge: p.badge,
-        btxt:  p.btxt,
-        stock: p.stock_label,
-        low:   Boolean(p.low),
-        color: p.color,
-        cat:   p.cat,
-        url:   p.url,
-        img:   p.img   ?? null,
+        id:        p.id,
+        name:      p.name,
+        stor:      p.stor,
+        ars:       p.ars       ?? null,
+        ars_old:   p.ars_old   ?? null,
+        usd:       p.usd       ?? null,
+        badge:     p.badge,
+        btxt:      p.btxt,
+        stock:     p.stock_label,
+        low:       Boolean(p.low),
+        color:     p.color,
+        cat:       p.cat,
+        url:       p.url,
+        img:       p.img       ?? null,
+        offer_end: p.offer_end ?? null,
       }));
     }
     // Si la API no devuelve productos, PRODUCTS queda vacío [] — no hay fallback
@@ -2165,6 +2167,13 @@ function phoneSVG(color,s=70,h=125){
 /* ═══════════════ RENDER PRODUCTS ═══════════════ */
 let currentFilter = 'all';
 
+function slugify(name){
+  return name.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+}
+
 function renderProducts(filter='all'){
   currentFilter = filter;
   const grid = document.getElementById('prods-grid');
@@ -2173,15 +2182,15 @@ function renderProducts(filter='all'){
   grid.innerHTML = filtered.map((p,i)=>`
     <div class="pcard" style="animation-delay:${i*0.07}s" id="pc-${p.id}">
       <span class="pbadge ${p.badge}">${p.btxt}</span>
-      <div class="pimg">
+      <a href="/${slugify(p.name)}" class="pimg" style="display:block;text-decoration:none">
         ${p.img
           ? `<img src="${p.img}" alt="${p.name}" loading="lazy">`
           : `<div class="pimg-empty"></div>`
         }
-      </div>
+      </a>
       <div class="pinfo">
         <div class="pcat">${catLabels[p.cat]||p.cat}</div>
-        <div class="pname">${p.name}</div>
+        <a href="/${slugify(p.name)}" style="text-decoration:none;color:inherit"><div class="pname">${p.name}</div></a>
         <div class="pstor">${p.stor}</div>
         <div class="pprice-row">
           ${p.ars
@@ -2534,41 +2543,46 @@ const co=new IntersectionObserver(entries=>{
 document.querySelectorAll('.trust-n[data-target]').forEach(el=>co.observe(el));
 
 /* ═══════════════ COUNTDOWN ═══════════════ */
-// Reads offer end from localStorage (set by admin panel) or falls back to +3 days
-function getOfferEnd() {
-  const stored = localStorage.getItem('iz_offer_end');
-  if (stored) {
-    const d = new Date(stored);
-    if (!isNaN(d.getTime()) && d > Date.now()) return d;
-  }
-  // Default: +3 days at 23:59:59
-  const fallback = new Date();
-  fallback.setDate(fallback.getDate()+3);
-  fallback.setHours(23,59,59,0);
-  return fallback;
-}
-let cd = getOfferEnd();
-function tick(){
-  // Re-read in case admin updated it
-  const freshEnd = getOfferEnd();
-  if (freshEnd.getTime() !== cd.getTime()) cd = freshEnd;
-  const d = cd - Date.now();
-  const pad = n => String(Math.floor(n)).padStart(2,'0');
-  const ddEl = document.getElementById('cd-d');
-  if (!ddEl) return;
-  if (d <= 0) {
-    ddEl.textContent = '00';
-    document.getElementById('cd-h').textContent = '00';
-    document.getElementById('cd-m').textContent = '00';
-    document.getElementById('cd-s').textContent = '00';
+// Se actualiza según el offer_end del producto activo en el slider
+let cdTarget = null;   // Date | null — se setea al cambiar de slide
+let cdInterval = null;
+
+function setCountdownTarget(offerEnd) {
+  // offerEnd: string ISO o null
+  clearInterval(cdInterval);
+  const label = document.querySelector('.offer-cd-label');
+  if (!offerEnd) {
+    // Sin fecha de vencimiento — mostrar ceros y label genérico
+    if (label) label.textContent = 'Oferta válida por';
+    ['cd-d','cd-h','cd-m','cd-s'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '00';
+    });
     return;
   }
-  ddEl.textContent = pad(d/864e5);
-  document.getElementById('cd-h').textContent = pad(d%864e5/36e5);
-  document.getElementById('cd-m').textContent = pad(d%36e5/6e4);
-  document.getElementById('cd-s').textContent = pad(d%6e4/1e3);
+  cdTarget = new Date(offerEnd);
+  if (label) label.textContent = 'Oferta termina en';
+  const tickCd = () => {
+    const diff = cdTarget - Date.now();
+    const pad = n => String(Math.max(0, Math.floor(n))).padStart(2, '0');
+    const dd = document.getElementById('cd-d'); if (!dd) return;
+    if (diff <= 0) {
+      ['cd-d','cd-h','cd-m','cd-s'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent='00'; });
+      if (label) label.textContent = 'Oferta vencida';
+      clearInterval(cdInterval);
+      return;
+    }
+    dd.textContent                              = pad(diff / 864e5);
+    document.getElementById('cd-h').textContent = pad(diff % 864e5 / 36e5);
+    document.getElementById('cd-m').textContent = pad(diff % 36e5  / 6e4);
+    document.getElementById('cd-s').textContent = pad(diff % 6e4   / 1e3);
+  };
+  tickCd();
+  cdInterval = setInterval(tickCd, 1000);
 }
-tick(); setInterval(tick, 1000);
+
+// Inicializa con ceros hasta que el slider cargue los productos
+setCountdownTarget(null);
 
 /* ═══════════════ MOBILE MENU ═══════════════ */
 const menuBtn=document.getElementById('menu-btn');
@@ -2668,13 +2682,13 @@ function renderOfferSlider(){
 
     return `
     <div class="op-card" data-oi="${i}">
-      <div class="op-img">
+      <a href="/${slugify(p.name)}" class="op-img" style="display:block;text-decoration:none">
         <span class="op-badge ${badgeCls}">${p.btxt}</span>
         ${imgHTML}
-      </div>
+      </a>
       <div class="op-info">
         <div class="op-cat">${catLabels2[p.cat]||p.cat}</div>
-        <div class="op-name">${p.name}</div>
+        <a href="/${slugify(p.name)}" style="text-decoration:none;color:inherit"><div class="op-name">${p.name}</div></a>
         <div class="op-stor">${p.stor}</div>
         <div class="op-price-row">${priceHTML}</div>
         ${saveAmt ? `<span class="op-save">Ahorrás ${saveAmt}%</span>` : ''}
@@ -2704,7 +2718,9 @@ let offerIdx = 0;
 let offerTimer;
 
 function goOfferSlide(next){
-  offerIdx = ((next % PRODUCTS.filter(p => p.badge === 'b-sale').length) + PRODUCTS.filter(p => p.badge === 'b-sale').length) % PRODUCTS.filter(p => p.badge === 'b-sale').length;
+  const offerProds = PRODUCTS.filter(p => p.badge === 'b-sale');
+  if (!offerProds.length) return;
+  offerIdx = ((next % offerProds.length) + offerProds.length) % offerProds.length;
   const track = document.getElementById('offer-track');
   if(track){
     if(window.innerWidth <= 900){
@@ -2715,6 +2731,9 @@ function goOfferSlide(next){
     }
   }
   document.querySelectorAll('.os-dot').forEach((d,i)=>d.classList.toggle('active',i===offerIdx));
+  // Actualizar countdown con el offer_end del producto visible
+  const currentProd = offerProds[offerIdx];
+  setCountdownTarget(currentProd?.offer_end || null);
 }
 
 function startOfferTimer(){
@@ -2736,6 +2755,9 @@ document.getElementById('offer-next')?.addEventListener('click',()=>{
   renderProducts();
   renderReviews();
   renderOfferSlider();    // solo productos con badge b-sale
+  // Inicializar countdown con el primer producto de oferta
+  const firstOffer = PRODUCTS.filter(p => p.badge === 'b-sale')[0];
+  setCountdownTarget(firstOffer?.offer_end || null);
   startOfferTimer();
 })();
 </script>

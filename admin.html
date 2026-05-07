@@ -999,7 +999,7 @@ function resetForm(){
   document.getElementById('fCat').value='';document.getElementById('fOfferEnd').value='';
   document.querySelectorAll('.badge-opt').forEach(b=>b.classList.toggle('sel',b.dataset.badge==='b-new'));
   document.querySelectorAll('.swatch').forEach(s=>s.classList.toggle('sel',s.dataset.color==='#1d1d1f'));
-  clearImgPreview();document.getElementById('offerCalcBox').style.display='none';document.getElementById('offerTimerBox').style.display='none';
+  document.getElementById('offerCalcBox').style.display='none';document.getElementById('offerTimerBox').style.display='none';
   document.getElementById('calcRes').classList.remove('show');document.getElementById('timerPrev').innerHTML='Sin vencimiento configurado';
   document.getElementById('uploadSt').textContent='Seleccioná JPG, PNG o WebP';document.getElementById('uploadSt').className='upload-st';
   document.getElementById('fImgFile').value='';

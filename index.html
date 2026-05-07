@@ -1655,9 +1655,25 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
   overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;
 }
 .pp-img-frame img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
-.pp-img-frame:hover img{transform:scale(1.03)}
 .pp-img-ph{display:flex;flex-direction:column;align-items:center;gap:16px;opacity:.1}
 .pp-img-ph svg{width:80px;height:80px;fill:var(--ink)}
+/* Carousel */
+.pp-carousel{position:relative;width:100%;overflow:hidden}
+.pp-carousel-track{display:flex;transition:transform .38s cubic-bezier(.4,0,.2,1)}
+.pp-carousel-slide{flex:0 0 100%;aspect-ratio:1/1;background:var(--bg2);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.pp-carousel-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.pp-carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;background:rgba(255,255,255,.88);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;z-index:2;transition:background .2s;backdrop-filter:blur(4px)}
+.pp-carousel-btn:hover{background:white}
+.pp-carousel-prev{left:8px}
+.pp-carousel-next{right:8px}
+.pp-carousel-dots{display:flex;justify-content:center;gap:6px;padding:10px 0 0}
+.pp-carousel-dot{width:6px;height:6px;border-radius:50%;background:var(--border3);cursor:pointer;transition:all .2s;border:none;padding:0}
+.pp-carousel-dot.active{background:var(--ink);width:18px;border-radius:3px}
+.pp-thumbs{display:flex;gap:6px;padding:10px 0 0;overflow-x:auto;scrollbar-width:none}
+.pp-thumbs::-webkit-scrollbar{display:none}
+.pp-thumb{width:56px;height:56px;flex-shrink:0;border:2px solid transparent;overflow:hidden;cursor:pointer;transition:border-color .2s;background:var(--bg2)}
+.pp-thumb.active{border-color:var(--ink)}
+.pp-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .pp-float-badge{
   position:absolute;top:14px;left:14px;
   padding:5px 12px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
@@ -2105,9 +2121,17 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
   <div class="pp-inner">
     <!-- Imagen -->
     <div class="pp-media">
-      <div class="pp-img-frame" id="pp-img-frame">
-        <div class="pp-img-ph"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></div>
+      <div class="pp-carousel" id="pp-carousel">
+        <div class="pp-carousel-track" id="pp-carousel-track">
+          <div class="pp-carousel-slide">
+            <div class="pp-img-ph"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></div>
+          </div>
+        </div>
+        <button class="pp-carousel-btn pp-carousel-prev" id="pp-prev" onclick="ppCarouselMove(-1)" style="display:none">‹</button>
+        <button class="pp-carousel-btn pp-carousel-next" id="pp-next" onclick="ppCarouselMove(1)" style="display:none">›</button>
       </div>
+      <div class="pp-thumbs" id="pp-thumbs" style="display:none"></div>
+      <div class="pp-carousel-dots" id="pp-dots" style="display:none"></div>
     </div>
     <!-- Info -->
     <div>
@@ -2363,6 +2387,7 @@ async function loadProducts() {
         cat:       p.cat,
         url:       p.url,
         img:       p.img       ?? null,
+        images:    p.images ? (() => { try { return typeof p.images === 'string' ? JSON.parse(p.images) : p.images; } catch(e) { return null; } })() : null,
         offer_end: p.offer_end ?? null,
       modelos:   p.modelos ? (() => { try { const m = typeof p.modelos === 'string' ? JSON.parse(p.modelos) : p.modelos; return Array.isArray(m) ? m : null; } catch(e) { return null; } })() : null,
       }));
@@ -2427,7 +2452,7 @@ function renderProducts(filter='all'){
       <span class="pbadge ${p.badge}">${p.btxt}</span>
       <div class="pimg" style="cursor:pointer" onclick="openProdPanel(${p.id})">
         ${p.img
-          ? `<img src="${p.img}" alt="${p.name}" loading="lazy">`
+          ? `<img src="${(()=>{if(p.images){try{const imgs=typeof p.images==='string'?JSON.parse(p.images):p.images;if(Array.isArray(imgs)&&imgs.length)return imgs[0];}catch{}}return p.img||'';})()}" alt="${p.name}" loading="lazy">`
           : `<div class="pimg-empty"></div>`
         }
       </div>
@@ -3022,12 +3047,11 @@ function openProdPanel(id){
   storEl.style.display = p.stor ? '' : 'none';
 
   // Imagen
-  const frame = document.getElementById('pp-img-frame');
-  if(p.img){
-    frame.innerHTML = `<img src="${p.img}" alt="${p.name}"><span class="pp-float-badge ${p.badge}">${p.btxt}</span>`;
-  } else {
-    frame.innerHTML = `<div class="pp-img-ph"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></div><span class="pp-float-badge ${p.badge}">${p.btxt}</span>`;
-  }
+  // Build images array from p.images or fallback to p.img
+  let ppImages=[];
+  if(p.images){try{const parsed=typeof p.images==='string'?JSON.parse(p.images):p.images;if(Array.isArray(parsed)&&parsed.length)ppImages=parsed;}catch{}}
+  if(!ppImages.length&&p.img) ppImages=[p.img];
+  ppInitCarousel(ppImages, p);
 
   // Precio
   const pw = document.getElementById('pp-price-wrap');
@@ -3216,6 +3240,65 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
 
 let _currentModelo = null;
+/* ═══ CAROUSEL ═══ */
+let _ppCarouselIdx=0;
+let _ppCarouselImages=[];
+
+function ppInitCarousel(images, p){
+  _ppCarouselImages=images;
+  _ppCarouselIdx=0;
+  const track=document.getElementById('pp-carousel-track');
+  const thumbsEl=document.getElementById('pp-thumbs');
+  const dotsEl=document.getElementById('pp-dots');
+  const prevBtn=document.getElementById('pp-prev');
+  const nextBtn=document.getElementById('pp-next');
+  const badge=p.badge&&p.btxt?`<span class="pp-float-badge ${p.badge}" style="position:absolute;top:14px;left:14px;z-index:2">${p.btxt}</span>`:'';
+
+  if(!images.length){
+    track.innerHTML=`<div class="pp-carousel-slide"><div class="pp-img-ph"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></div>${badge}</div>`;
+    prevBtn.style.display=nextBtn.style.display='none';
+    thumbsEl.style.display=dotsEl.style.display='none';
+    return;
+  }
+
+  track.innerHTML=images.map((src,i)=>
+    `<div class="pp-carousel-slide">${i===0?badge:''}<img src="${esc(src)}" alt="" loading="${i===0?'eager':'lazy'}"></div>`
+  ).join('');
+
+  const multi=images.length>1;
+  prevBtn.style.display=nextBtn.style.display=multi?'':'none';
+  thumbsEl.style.display=dotsEl.style.display=multi?'':'none';
+
+  if(multi){
+    // Thumbnails
+    thumbsEl.innerHTML=images.map((src,i)=>
+      `<div class="pp-thumb${i===0?' active':''}" onclick="ppCarouselGoto(${i})"><img src="${esc(src)}" alt="" loading="lazy"></div>`
+    ).join('');
+    // Dots
+    dotsEl.innerHTML=images.map((_,i)=>
+      `<button class="pp-carousel-dot${i===0?' active':''}" onclick="ppCarouselGoto(${i})"></button>`
+    ).join('');
+  }
+
+  ppCarouselGoto(0);
+}
+
+function ppCarouselGoto(idx){
+  _ppCarouselIdx=Math.max(0,Math.min(idx,_ppCarouselImages.length-1));
+  document.getElementById('pp-carousel-track').style.transform=`translateX(-${_ppCarouselIdx*100}%)`;
+  // Update dots
+  document.querySelectorAll('.pp-carousel-dot').forEach((d,i)=>d.classList.toggle('active',i===_ppCarouselIdx));
+  // Update thumbs
+  document.querySelectorAll('.pp-thumb').forEach((t,i)=>t.classList.toggle('active',i===_ppCarouselIdx));
+  // Scroll thumb into view
+  const thumb=document.querySelectorAll('.pp-thumb')[_ppCarouselIdx];
+  if(thumb) thumb.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+}
+
+function ppCarouselMove(dir){
+  ppCarouselGoto(_ppCarouselIdx+dir);
+}
+
 function ppSelectModelo(m, el){
   _currentModelo = m;
   if(window._ppSelectModelo) window._ppSelectModelo(m);

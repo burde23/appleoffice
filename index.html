@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>iPhone Zone — Tienda Online · La Plata, Argentina</title>
-<meta name="description" content="Comprá productos de iPhone Zone por internet. Tenemos accesorios, cargadores, equipos sellados y más. Hacé tu pedido y pagalo online. Envíos a todo el país.">
+<title>iPhone La Plata — Tienda Online · La Plata, Argentina</title>
+<meta name="description" content="Comprá productos de iPhone La Plata por internet. Tenemos accesorios, cargadores, equipos sellados y más. Hacé tu pedido y pagalo online. Envíos a todo el país.">
 
 <style>
 /* ═══════════════ VARIABLES ═══════════════ */
@@ -71,7 +71,7 @@ ul{list-style:none}
 #nav.solid{border-color:var(--border)}
 .nav-brand{font-family:var(--font-display);font-size:13px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);line-height:1;display:flex;align-items:center;gap:9px}
 .nav-brand-iphone{font-weight:500;letter-spacing:.22em;color:var(--ink-mid)}
-.nav-brand-zone{font-weight:700;letter-spacing:.22em;color:var(--ink)}
+.nav-brand-zone{font-weight:700;letter-spacing:.22em;color:var(--ink);margin-left:.44em}
 .nav-links a{font-size:12px;color:var(--ink-mid);transition:color .2s;letter-spacing:.06em;text-transform:uppercase;font-weight:400}
 .nav-links a:hover{color:var(--ink)}
 .nav-cart{
@@ -274,7 +274,7 @@ ul{list-style:none}
   top:3px;
 }
 .hero-logo-iphone{font-weight:300;opacity:0.88}
-.hero-logo-zone{font-weight:700}
+.hero-logo-zone{font-weight:700;margin-left:.6em}
 .hero-logo-location{display:none}
 
 /* ═══════════════ HERO SLIDES ═══════════════ */
@@ -1618,7 +1618,6 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
   position:fixed;left:0;right:0;bottom:0;z-index:1100;
   top:56px;
   background:var(--bg);
-  overflow:hidden;
   opacity:0;pointer-events:none;
   transition:opacity .38s var(--ease);
 }
@@ -1628,7 +1627,6 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
   position:fixed;left:0;right:0;bottom:0;z-index:1101;
   top:56px;
   overflow-y:auto;
-  overflow-x:hidden;
   opacity:0;pointer-events:none;
   transform:translateY(18px);
   transition:opacity .4s var(--ease),transform .4s var(--ease);
@@ -1641,49 +1639,17 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
 
 .pp-inner{max-width:1160px;margin:0 auto;padding:48px 48px 100px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
 @media(max-width:960px){.pp-inner{gap:40px;padding:32px 28px 80px}}
-@media(max-width:700px){
-  .pp-inner{
-    grid-template-columns:1fr;
-    gap:0;
-    padding:0 0 80px;
-    width:100%;
-    box-sizing:border-box;
-  }
-}
+@media(max-width:700px){.pp-inner{grid-template-columns:1fr;gap:28px;padding:24px 18px 64px}}
 
 /* breadcrumb */
 .pp-breadcrumb{padding:12px 48px;font-size:11px;color:var(--ink-dim);display:flex;align-items:center;gap:6px;letter-spacing:.03em;border-bottom:1px solid var(--border)}
 .pp-breadcrumb a{color:var(--ink-dim);cursor:pointer;transition:color .2s}
 .pp-breadcrumb a:hover{color:var(--ink)}
 .pp-bc-sep{opacity:.35}
-@media(max-width:700px){
-  .pp-breadcrumb{
-    padding:10px 16px;
-    font-size:10px;
-    width:100%;
-    box-sizing:border-box;
-    overflow:hidden;
-  }
-  #pp-bc-name{
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    max-width:160px;
-    display:inline-block;
-  }
-}
+@media(max-width:700px){.pp-breadcrumb{padding:10px 18px}}
 
-/* Imagen / Media */
+/* Imagen */
 .pp-media{position:sticky;top:72px}
-@media(max-width:700px){
-  .pp-media{
-    position:relative;
-    top:auto;
-    width:100%;
-    box-sizing:border-box;
-  }
-}
-
 .pp-img-frame{
   width:100%;aspect-ratio:1/1;background:var(--bg2);border:1px solid var(--border);
   overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;
@@ -1691,37 +1657,11 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
 .pp-img-frame img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
 .pp-img-ph{display:flex;flex-direction:column;align-items:center;gap:16px;opacity:.1}
 .pp-img-ph svg{width:80px;height:80px;fill:var(--ink)}
-
 /* Carousel */
 .pp-carousel{position:relative;width:100%;overflow:hidden}
 .pp-carousel-track{display:flex;transition:transform .38s cubic-bezier(.4,0,.2,1)}
-.pp-carousel-slide{
-  flex:0 0 100%;
-  aspect-ratio:1/1;
-  background:var(--bg2);
-  overflow:hidden;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.pp-carousel-slide img{width:100%;height:100%;object-fit:contain;display:block}
-
-@media(max-width:700px){
-  .pp-carousel{
-    width:100%;
-    box-sizing:border-box;
-  }
-  .pp-carousel-slide{
-    aspect-ratio:1/1;
-    max-height:360px;
-  }
-  .pp-carousel-slide img{
-    object-fit:contain;
-    width:100%;
-    height:100%;
-  }
-}
+.pp-carousel-slide{flex:0 0 100%;aspect-ratio:1/1;background:var(--bg2);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.pp-carousel-slide img{width:100%;height:100%;object-fit:cover;display:block}
 .pp-carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;background:rgba(255,255,255,.88);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;z-index:2;transition:background .2s;backdrop-filter:blur(4px)}
 .pp-carousel-btn:hover{background:white}
 .pp-carousel-prev{left:8px}
@@ -1734,10 +1674,6 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
 .pp-thumb{width:56px;height:56px;flex-shrink:0;border:2px solid transparent;overflow:hidden;cursor:pointer;transition:border-color .2s;background:var(--bg2)}
 .pp-thumb.active{border-color:var(--ink)}
 .pp-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-@media(max-width:700px){
-  .pp-thumbs{padding:8px 0 0}
-  .pp-thumb{width:52px;height:52px}
-}
 .pp-float-badge{
   position:absolute;top:14px;left:14px;
   padding:5px 12px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
@@ -1752,15 +1688,7 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
 .pp-eyebrow::before{content:'';width:20px;height:1px;background:var(--ink-faint);display:inline-block}
 .pp-title{font-size:38px;font-weight:600;letter-spacing:-.6px;line-height:1.12;margin-bottom:10px}
 @media(max-width:960px){.pp-title{font-size:28px}}
-@media(max-width:700px){
-  .pp-title{font-size:22px}
-  /* Info box con padding lateral en mobile */
-  .pp-info{
-    padding:20px 16px 0;
-    box-sizing:border-box;
-    width:100%;
-  }
-}
+@media(max-width:700px){.pp-title{font-size:24px}}
 .pp-stor{font-size:16px;color:var(--ink-mid);margin-bottom:28px;line-height:1.55;font-weight:300}
 .pp-divider{width:40px;height:1px;background:var(--border2);margin-bottom:28px}
 
@@ -1808,9 +1736,9 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
 
 /* Share */
 .pp-share{display:flex;align-items:center;gap:10px;margin-bottom:28px}
-.pp-share-label{font-size:11px;color:var(--ink-dim);letter-spacing:.04em;flex-shrink:0}
-.pp-share-url{flex:1;padding:9px 13px;border:1px solid var(--border2);background:var(--bg);font-size:12px;color:var(--ink-mid);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default;min-width:0}
-.pp-btn-copy{padding:9px 14px;border:1px solid var(--border2);font-size:11px;font-weight:500;color:var(--ink-mid);transition:all .2s;white-space:nowrap;flex-shrink:0}
+.pp-share-label{font-size:11px;color:var(--ink-dim);letter-spacing:.04em}
+.pp-share-url{flex:1;padding:9px 13px;border:1px solid var(--border2);background:var(--bg);font-size:12px;color:var(--ink-mid);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default}
+.pp-btn-copy{padding:9px 14px;border:1px solid var(--border2);font-size:11px;font-weight:500;color:var(--ink-mid);transition:all .2s;white-space:nowrap}
 .pp-btn-copy:hover{border-color:var(--border3);color:var(--ink);background:var(--bg2)}
 .pp-btn-copy.copied{border-color:var(--green);color:var(--green);background:rgba(26,138,58,.06)}
 
@@ -1825,20 +1753,10 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
 
 /* Related */
 .pp-related{padding:40px 48px 60px;border-top:1px solid var(--border)}
-@media(max-width:700px){
-  .pp-related{
-    padding:28px 16px 56px;
-    width:100%;
-    box-sizing:border-box;
-    overflow:hidden;
-  }
-}
+@media(max-width:700px){.pp-related{padding:28px 18px 48px}}
 .pp-rel-eye{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:6px}
 .pp-rel-title{font-size:22px;font-weight:600;letter-spacing:-.4px;margin-bottom:24px}
-.pp-rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--border)}
-@media(max-width:700px){
-  .pp-rel-grid{grid-template-columns:repeat(2,1fr)}
-}
+.pp-rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border)}
 .pp-rel-card{background:var(--bg3);padding:16px;cursor:pointer;transition:background .2s}
 .pp-rel-card:hover{background:var(--bg2)}
 .pp-rel-img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--bg2);margin-bottom:10px;display:block}
@@ -1870,7 +1788,7 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
       <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.617 13.415-3.7 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71.12 1.017.17 2.035.17 3.041z"/>
     </svg>
     <span class="nav-brand-text">
-      <span class="nav-brand-iphone">iPhone</span><span class="nav-brand-zone">Zone</span>
+      <span class="nav-brand-iphone">iPhone</span><span class="nav-brand-zone">La Plata</span>
     </span>
   </a>
   <ul class="nav-links">
@@ -1879,7 +1797,7 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
     <li><a href="#offer">Ofertas</a></li>
     <li><a href="#features">Nosotros</a></li>
     <li><a href="#about">Contacto</a></li>
-    <li><a href="https://iphonezone2.mitiendanube.com/blog/" target="_blank">¿Cómo comprar?</a></li>
+    <li><a href="#about">¿Cómo comprar?</a></li>
   </ul>
   <div class="nav-actions">
     <button class="nav-cart" id="cart-btn" aria-label="Abrir carrito">
@@ -1904,7 +1822,7 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
   <a href="#cats2" class="mn-link">Cargadores</a>
   <a href="#offer" class="mn-link">Ofertas</a>
   <a href="#about" class="mn-link">Contacto</a>
-  <a href="https://iphonezone2.mitiendanube.com/blog/" class="mn-link" target="_blank">¿Cómo comprar?</a>
+  <a href="#about" class="mn-link">¿Cómo comprar?</a>
 </div>
 
 <section id="hero">
@@ -1924,7 +1842,7 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
           <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.617 13.415-3.7 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71.12 1.017.17 2.035.17 3.041z"/>
         </svg>
         <span class="hero-logo-text">
-          <span class="hero-logo-iphone">iPhone</span><span class="hero-logo-zone">Zone</span>
+          <span class="hero-logo-iphone">iPhone</span><span class="hero-logo-zone">La Plata</span>
         </span>
       </div>
       <span class="hero-logo-location">Buenos Aires &middot; La Plata</span>
@@ -2096,7 +2014,7 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
   <div class="about-inner">
     <div class="reveal">
       <span class="s-rule"></span>
-      <span class="s-eye">Bienvenidos a iPhone Zone</span>
+      <span class="s-eye">Bienvenidos a iPhone La Plata</span>
       <h2 class="s-h2">Comprá online<br><em>fácil y seguro.</em></h2>
       <p class="s-sub">Hacé tu pedido por nuestra tienda online o WhatsApp. Consultá stock y viví tu propio unboxing. Siempre a tu disposición.</p>
       <div class="contact-links">
@@ -2106,23 +2024,18 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
           </div>
           <div><div class="contact-label">WhatsApp</div><div class="contact-val">Consultá stock y precios</div></div>
         </a>
-        <a href="https://iphonezone2.mitiendanube.com/" class="contact-item" target="_blank" rel="noopener">
-          <div class="contact-ico">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-          </div>
-          <div><div class="contact-label">Tienda online</div><div class="contact-val">iphonezone2.mitiendanube.com</div></div>
-        </a>
-        <a href="https://iphonezone2.mitiendanube.com/contacto/" class="contact-item" target="_blank" rel="noopener">
+        
+        <a href="#about" class="contact-item">
           <div class="contact-ico">
             <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           </div>
-          <div><div class="contact-label">Contacto</div><div class="contact-val">Formulario de contacto online</div></div>
+          <div><div class="contact-label">Contacto</div><div class="contact-val">Escribinos por WhatsApp</div></div>
         </a>
-        <a href="https://iphonezone2.mitiendanube.com/blog/" class="contact-item" target="_blank" rel="noopener">
+        <a href="#about" class="contact-item">
           <div class="contact-ico">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           </div>
-          <div><div class="contact-label">¿Cómo comprar?</div><div class="contact-val">Guía paso a paso en nuestro blog</div></div>
+          <div><div class="contact-label">¿Cómo comprar?</div><div class="contact-val">Consultanos por WhatsApp</div></div>
         </a>
       </div>
     </div>
@@ -2130,7 +2043,7 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
       <div class="about-map">
         <iframe
           src="https://www.openstreetmap.org/export/embed.html?bbox=-57.9610%2C-34.9300%2C-57.9200%2C-34.9000&layer=mapnik&marker=-34.9204%2C-57.9536"
-          title="Ubicación iPhone Zone La Plata"
+          title="Ubicación iPhone La Plata"
           loading="lazy"
           allowfullscreen
         ></iframe>
@@ -2143,42 +2056,40 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
   <div class="foot-inner">
     <div class="foot-top">
       <div>
-        <div class="foot-brand">iPhone <em>Zone</em></div>
+        <div class="foot-brand">iPhone <em>La Plata</em></div>
         <div class="foot-tagline">La Plata · Buenos Aires · Argentina</div>
       </div>
       <div class="foot-links">
         <div class="foot-col">
           <h4>Productos</h4>
-          <a href="https://iphonezone2.mitiendanube.com/equipos/" target="_blank">Equipos Sellados</a>
-          <a href="https://iphonezone2.mitiendanube.com/equipos/equipos-seminuevos1/" target="_blank">Equipos Seminuevos</a>
-          <a href="https://iphonezone2.mitiendanube.com/accesorios/" target="_blank">Accesorios</a>
-          <a href="https://iphonezone2.mitiendanube.com/cargadores/" target="_blank">Cargadores</a>
-          <a href="https://iphonezone2.mitiendanube.com/macbook/" target="_blank">MacBook</a>
-          <a href="https://iphonezone2.mitiendanube.com/ipad/" target="_blank">iPad</a>
+          <a href="#prods" target="_blank">Equipos Sellados</a>
+          <a href="#prods" target="_blank">Equipos Seminuevos</a>
+          <a href="#cats" target="_blank">Accesorios</a>
+          <a href="#cats" target="_blank">Cargadores</a>
+          <a href="#cats" target="_blank">MacBook</a>
+          <a href="#cats" target="_blank">iPad</a>
         </div>
         <div class="foot-col">
           <h4>Accesorios</h4>
-          <a href="https://iphonezone2.mitiendanube.com/accesorios/fundas-silicona/" target="_blank">Fundas Silicona</a>
-          <a href="https://iphonezone2.mitiendanube.com/accesorios/fundas-con-diseno/" target="_blank">Fundas con Diseño</a>
-          <a href="https://iphonezone2.mitiendanube.com/accesorios/fundas-magsafe/" target="_blank">Fundas MagSafe</a>
-          <a href="https://iphonezone2.mitiendanube.com/accesorios/vidrio-templado/" target="_blank">Vidrio Templado</a>
-          <a href="https://iphonezone2.mitiendanube.com/accesorios/auriculares/" target="_blank">Auriculares</a>
+          <a href="#cats">Fundas Silicona</a>
+          <a href="#cats">Fundas con Diseño</a>
+          <a href="#cats">Fundas MagSafe</a>
+          <a href="#cats">Vidrio Templado</a>
+          <a href="#cats">Auriculares</a>
         </div>
         <div class="foot-col">
           <h4>Atención</h4>
-          <a href="https://iphonezone2.mitiendanube.com/contacto/" target="_blank">Contacto</a>
-          <a href="https://iphonezone2.mitiendanube.com/blog/" target="_blank">¿Cómo comprar?</a>
-          <a href="https://iphonezone2.mitiendanube.com/contacto/?order_cancellation_without_id=true" target="_blank">Botón de arrepentimiento</a>
+          <a href="#about">Contacto</a>
+          <a href="#about">¿Cómo comprar?</a>
+          <a href="https://wa.me/542214000000" target="_blank">Botón de arrepentimiento</a>
           <a href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank">Defensa del consumidor</a>
         </div>
       </div>
     </div>
     <div class="foot-bottom">
-      <span class="foot-copy">© 2026 iPhone Zone · CUIT 27-47083024-2 · Todos los derechos reservados.</span>
+      <span class="foot-copy">© 2026 iPhone La Plata · CUIT 27-47083024-2 · Todos los derechos reservados.</span>
       <div class="foot-social">
-        <a href="https://iphonezone2.mitiendanube.com/" class="soc" target="_blank" rel="noopener" aria-label="Tienda online">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-        </a>
+        
         <a href="https://wa.me/542214000000" class="soc" target="_blank" rel="noopener" aria-label="WhatsApp">
           <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
         </a>
@@ -2216,7 +2127,7 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
       <div class="pp-carousel-dots" id="pp-dots" style="display:none"></div>
     </div>
     <!-- Info -->
-    <div class="pp-info">
+    <div>
       <div class="pp-eyebrow" id="pp-eyebrow">Categoría</div>
       <h1 class="pp-title" id="pp-title">Nombre del producto</h1>
       <p class="pp-stor" id="pp-stor"></p>
@@ -2476,7 +2387,7 @@ async function loadProducts() {
     }
     // Si la API no devuelve productos, PRODUCTS queda vacío [] — no hay fallback
   } catch (err) {
-    console.warn('[iPhone Zone] API no disponible:', err.message);
+    console.warn('[iPhone La Plata] API no disponible:', err.message);
     // PRODUCTS queda [] — la grilla se muestra vacía hasta que D1 responda
   }
 }

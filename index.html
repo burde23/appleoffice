@@ -1799,9 +1799,15 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
   /* Features grid — ocupa ancho completo */
   .pp-features{width:100%}
 
-  /* Modelos chips — se envuelven bien */
-  .pp-modelos-grid{gap:6px}
-  .pp-modelo-chip{font-size:11px;padding:6px 10px}
+  /* Modelos chips — se envuelven bien y no expanden el layout */
+  .pp-modelos-box{max-width:100%;overflow:hidden}
+  .pp-modelos-grid{gap:5px;max-width:100%;width:100%}
+  .pp-modelo-chip{
+    font-size:10px;padding:5px 9px;
+    max-width:calc(50% - 3px);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    box-sizing:border-box;
+  }
 
   /* Botones CTA full width */
   .pp-btn-add,.pp-btn-store{width:100%;box-sizing:border-box}
@@ -1810,12 +1816,12 @@ footer{background:#2c2c2e;padding:72px 48px 40px;border-top:1px solid rgba(255,2
   .pp-rel-grid{grid-template-columns:repeat(2,1fr)}
 }
 
-.pp-modelos{margin:0 0 24px}
+.pp-modelos{margin:0 0 24px;max-width:100%;min-width:0}
 .pp-modelos-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
 .pp-modelos-selected{font-size:11px;font-weight:400;color:var(--ink);letter-spacing:.02em;font-weight:600}
 .pp-modelos-cat-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);margin:12px 0 7px;display:flex;align-items:center;gap:6px}
 .pp-modelos-cat-title:first-child{margin-top:0}
-.pp-modelos-grid{display:flex;flex-wrap:wrap;gap:7px}
+.pp-modelos-grid{display:flex;flex-wrap:wrap;gap:7px;min-width:0}
 .pp-modelo-chip{padding:7px 14px;border:1px solid var(--border2);font-size:12px;font-weight:500;color:var(--ink-mid);cursor:pointer;transition:all .2s;user-select:none}
 .pp-modelo-chip:hover{border-color:var(--border3);color:var(--ink);background:var(--bg2)}
 .pp-modelo-chip.active{background:var(--ink);color:white;border-color:var(--ink)}
